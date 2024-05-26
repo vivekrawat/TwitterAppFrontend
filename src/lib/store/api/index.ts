@@ -1,3 +1,3 @@
-export * from "./loginApi"
+export * from "./authApi"
 export * from './userApi'
 export * from "./baseAuthorizedApi"

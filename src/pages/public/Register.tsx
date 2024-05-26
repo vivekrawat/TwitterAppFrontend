@@ -7,28 +7,17 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog";
   import { Button } from "@/components/ui/button";
-  import { z } from "zod";
+//   import { z } from "zod";
   import { zodResolver } from "@hookform/resolvers/zod";
   import { useForm } from "react-hook-form";
   import InputText from "@/components/formInputs/TextInput"
   import { Form } from "@/components/ui/form"
-  
-  const RegisterSchema = z.object({
-    email: z.string().email({message: "invalid email"})
-      .min(6,{message: "please enter valid email"}),
-    fullname: z.string()
-      .min(3, { message: "user name must have at least 3 characters" })
-      .max(50, { message: "user name cannot be this long" }),
-    username: z.string()
-      .min(3, { message: "user name must have at least 3 characters" })
-      .max(50, { message: "user name cannot be this long" }),
-    password: z.string()
-      .min(5, { message: "password too short" })
-      .max(50, { message: "password too long" }),
-  });
-  
+  import {RegisterSchema, type RegisterType} from "@/types/Auth.model"
+  import { useRegisterUserMutation } from "@/lib/store/api/authApi"
+
   export default function Register() {
-    const form = useForm<z.infer<typeof RegisterSchema>>({
+    const [ registerUser ] = useRegisterUserMutation()
+    const form = useForm<RegisterType>({
       resolver: zodResolver(RegisterSchema),
       defaultValues: {
         username: "",
@@ -37,8 +26,9 @@ import {
         fullname: ""
       },
     });
-    const onSubmit = (data : z.infer<typeof LoginSchema>) => {
+    const onSubmit = (data : RegisterType) => {
       console.log(data)
+      registerUser(data)
     }
   
     return (
@@ -56,7 +46,7 @@ import {
                   <InputText form={form} label="Enter Full Name" desc="" placeholder="full name" formKey="fullname"/>
                   <InputText form={form} label="Enter Username" desc="" placeholder="username" formKey="username"/>
                   <InputText form={form} label="Enter Password" type="password" desc="" placeholder="Password" formKey="password"/>
-                  <Button type="submit" variant="outline" className="hover:bg-primary hover:text-white w-full">Login</Button>
+                  <Button type="submit" variant="outline" className="hover:bg-primary uppercase hover:text-white w-full">Register</Button>
                 </form>
               </Form>
             {/* </DialogDescription> */}

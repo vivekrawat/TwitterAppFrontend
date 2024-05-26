@@ -1,6 +1,6 @@
 import * as apis from "./api"
 
 export const middlewares = [
-    apis.loginApi.middleware,
+    apis.authApi.middleware,
     apis.baseAuthorizedApi.middleware
 ]

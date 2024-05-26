@@ -7,31 +7,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputText from "@/components/formInputs/TextInput"
 import { Form } from "@/components/ui/form"
-
-const LoginSchema = z.object({
-  username: z.string()
-    .min(3, { message: "user name must have at least 3 characters" })
-    .max(50, { message: "user name cannot be this long" }),
-  password: z.string()
-    .min(5, { message: "password too short" })
-    .max(50, { message: "password too long" }),
-});
+import {LoginSchema, type LoginType} from "@/types/Auth.model"
+import { useLoginUserMutation } from "@/lib/store/api/authApi"
 
 export default function Login() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const [loginUser] = useLoginUserMutation()
+  const form = useForm<LoginType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       username: "",
       password: ""
     },
   });
-  const onSubmit = (data : z.infer<typeof LoginSchema>) => {
+  const onSubmit = (data : LoginType) => {
     console.log(data)
+    loginUser(data)
   }
 
   return (
