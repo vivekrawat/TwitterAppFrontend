@@ -13,9 +13,13 @@ import InputText from "@/components/formInputs/TextInput"
 import { Form } from "@/components/ui/form"
 import {LoginSchema, type LoginType} from "@/types/Auth.model"
 import { useLoginUserMutation } from "@/lib/store/api/authApi"
+import { useAppDispatch }  from "@/lib/store/store"
+import { settingAlert } from "@/lib/store/slices/uiItemsSlice"
 
 export default function Login() {
   const [loginUser] = useLoginUserMutation()
+  const dispatch = useAppDispatch()
+
   const form = useForm<LoginType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -23,9 +27,12 @@ export default function Login() {
       password: ""
     },
   });
-  const onSubmit = (data : LoginType) => {
-    console.log(data)
-    loginUser(data)
+  const onSubmit = async (data : LoginType) => {
+    const results = await loginUser(data)
+    console.log(results)
+    if(results?.error?.data?.message) {
+      dispatch(settingAlert({description: results.error.data.message}))
+    }
   }
 
   return (
@@ -45,6 +52,7 @@ export default function Login() {
               </form>
             </Form>
           {/* </DialogDescription> */}
+
         </DialogHeader>
       </DialogContent>
     </Dialog>

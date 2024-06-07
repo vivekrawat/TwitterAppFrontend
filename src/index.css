@@ -32,6 +32,9 @@
     --destructive-light: 0 84.2% 80.2%;
     --destructive-foreground: 0 0% 98%;
 
+    --success: 85 54% 51%;
+    --success-dark: 120 100% 20%;
+
     --border: 0 0% 98%;
     --input: 0 0% 13%;
     --input-light: 0 0% 50%;
@@ -67,6 +70,9 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
+    --success: 85 54% 51%;
+    --success-dark: 120 100% 20%;
 
     --ring: 212.7 26.8% 83.9%;
   }

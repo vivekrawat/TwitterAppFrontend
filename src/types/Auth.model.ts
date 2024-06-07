@@ -23,5 +23,7 @@ export const LoginSchema = z.object({
       .max(50, { message: "password too long" }),
   });
 
+  
+
   export type LoginType = z.infer<typeof LoginSchema>
   export type RegisterType = z.infer<typeof RegisterSchema>

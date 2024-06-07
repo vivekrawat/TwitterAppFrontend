@@ -14,9 +14,13 @@ import {
   import { Form } from "@/components/ui/form"
   import {RegisterSchema, type RegisterType} from "@/types/Auth.model"
   import { useRegisterUserMutation } from "@/lib/store/api/authApi"
+  import { useAppDispatch }  from "@/lib/store/store"
+  import { settingAlert } from "@/lib/store/slices/uiItemsSlice"
 
   export default function Register() {
     const [ registerUser ] = useRegisterUserMutation()
+    const dispatch = useAppDispatch()
+
     const form = useForm<RegisterType>({
       resolver: zodResolver(RegisterSchema),
       defaultValues: {
@@ -26,9 +30,16 @@ import {
         fullname: ""
       },
     });
-    const onSubmit = (data : RegisterType) => {
-      console.log(data)
-      registerUser(data)
+    const onSubmit = async (data : RegisterType) => {
+      const results = await registerUser(data)
+      console.log(results)
+      if(results?.error) {
+        // console.log()
+        dispatch(settingAlert({description: results.error.data.message}))
+      }
+      if(results?.data) {
+        dispatch(settingAlert({description: results.data.message, variant: 'success'}))
+      }
     }
   
     return (
