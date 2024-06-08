@@ -30,8 +30,8 @@ export default function Login() {
   const onSubmit = async (data : LoginType) => {
     const results = await loginUser(data)
     console.log(results)
-    if(results?.error?.data?.message) {
-      dispatch(settingAlert({description: results.error.data.message}))
+    if(results?.error) {
+      dispatch(settingAlert({description: 'username and password do not match'}))
     }
   }
 

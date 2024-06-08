@@ -32,10 +32,10 @@ import {
     });
     const onSubmit = async (data : RegisterType) => {
       const results = await registerUser(data)
-      console.log(results)
+      // console.log(results)
       if(results?.error) {
         // console.log()
-        dispatch(settingAlert({description: results.error.data.message}))
+        dispatch(settingAlert({description: 'User Name and email Should Be Unique'}))
       }
       if(results?.data) {
         dispatch(settingAlert({description: results.data.message, variant: 'success'}))
