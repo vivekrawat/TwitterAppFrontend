@@ -15,9 +15,11 @@ import {LoginSchema, type LoginType} from "@/types/Auth.model"
 import { useLoginUserMutation } from "@/lib/store/api/authApi"
 import { useAppDispatch }  from "@/lib/store/store"
 import { settingAlert } from "@/lib/store/slices/uiItemsSlice"
+import useLocalStorage from '../../lib/useLocalstorage';
 
 export default function Login() {
   const [loginUser] = useLoginUserMutation()
+  const {setAuthToken} = useLocalStorage()
   const dispatch = useAppDispatch()
 
   const form = useForm<LoginType>({
@@ -32,6 +34,8 @@ export default function Login() {
     console.log(results)
     if(results?.error) {
       dispatch(settingAlert({description: 'username and password do not match'}))
+    } else {
+      setAuthToken(results.data.token)
     }
   }
 

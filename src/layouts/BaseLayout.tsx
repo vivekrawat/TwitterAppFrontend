@@ -22,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="">
       {XLogoVisible && (
-        <div className="fixed top-0 left-0 flex h-screen w-screen bg-background">
+        <div className="fixed z-[9999] top-0 left-0 flex h-screen w-screen bg-background">
           <img className="mx-auto my-auto h-40 w-40" src={image} alt="" />
         </div>
       )}
